@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(EmployeeIdAlreadyExistException.class)
-    public ResponseEntity<?> handleEmployeeIdAlreadyExist(EmployeeNotFoundException ex) {
+    public ResponseEntity<?> handleEmployeeIdAlreadyExist(EmployeeIdAlreadyExistException ex) {
         Map<String, String> errors = new HashMap<>();
         log.warn("Employee already exist {}",ex.getMessage());
         errors.put("message", "Employee already exist");
