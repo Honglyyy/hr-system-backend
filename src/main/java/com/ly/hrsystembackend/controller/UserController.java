@@ -7,6 +7,7 @@ import com.ly.hrsystembackend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/create")
+    @PreAuthorize("hasAllRoles('ADMIN', 'HR')")
     public ResponseEntity<String> createUser(@Valid @RequestBody UserRequest userRequest) {
         return ResponseEntity.ok(userService.createUser(userRequest));
     }
