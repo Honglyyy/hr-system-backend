@@ -2,6 +2,8 @@ package com.ly.hrsystembackend.service;
 
 import com.ly.hrsystembackend.dto.AuthRequest;
 import com.ly.hrsystembackend.exception.EmployeeNotFoundException;
+import com.ly.hrsystembackend.exception.InactiveEmployeeException;
+import com.ly.hrsystembackend.exception.LoginFailedException;
 import com.ly.hrsystembackend.model.User;
 import com.ly.hrsystembackend.repository.UserRepository;
 import com.ly.hrsystembackend.utils.JwtUtil;
@@ -28,7 +30,7 @@ public class AuthService {
 
         if (!Boolean.TRUE.equals(activeUser.getIsActive())) {
             log.error("User account is inactive for employee: {}", authRequest.employeeId());
-            return "fail";
+            throw new InactiveEmployeeException("User account is inactive for employee");
         }
 
         try {
@@ -37,7 +39,7 @@ public class AuthService {
             authenticationManager.authenticate(user);
         } catch (Exception e) {
             log.error("Authentication failed: {}", e.getMessage());
-            return "fail";
+            throw new LoginFailedException("Authentication failed");
         }
 
         return jwtUtil.generateToken(activeUser);

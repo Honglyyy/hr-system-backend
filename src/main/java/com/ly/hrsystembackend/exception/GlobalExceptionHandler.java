@@ -1,6 +1,7 @@
 package com.ly.hrsystembackend.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,8 +17,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<String, String>();
-        e.getBindingResult().getAllErrors().forEach((error) -> {
-            errors.put(error.getObjectName(), error.getDefaultMessage());
+        e.getBindingResult().getFieldErrors().forEach((error) -> {
+            errors.put(error.getField(), error.getDefaultMessage());
         });
         return ResponseEntity.badRequest().body(errors);
     }
@@ -36,5 +37,21 @@ public class GlobalExceptionHandler {
         log.warn("Employee already exist {}",ex.getMessage());
         errors.put("message", "Employee already exist");
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(LoginFailedException.class)
+    public ResponseEntity<?> handleLoginFail(LoginFailedException ex) {
+        Map<String, String> errors = new HashMap<>();
+        log.warn("Login fail!! {}",ex.getMessage());
+        errors.put("message", "The login fail");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errors);
+    }
+
+    @ExceptionHandler(InactiveEmployeeException.class)
+    public ResponseEntity<?> handleInactiveEmployee(InactiveEmployeeException ex) {
+        Map<String, String> errors = new HashMap<>();
+        log.warn("Employee is not active!! {}",ex.getMessage());
+        errors.put("message", "Employee is not active");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errors);
     }
 }

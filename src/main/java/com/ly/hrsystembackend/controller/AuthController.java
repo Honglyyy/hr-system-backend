@@ -4,6 +4,7 @@ import com.ly.hrsystembackend.dto.AuthRequest;
 import com.ly.hrsystembackend.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,9 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<String> authenticate(@Valid @RequestBody AuthRequest authRequest) {
+        if (authRequest == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         return ResponseEntity.ok(authService.authenticate(authRequest));
     }
 
