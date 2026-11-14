@@ -1,4 +1,4 @@
-package com.ly.hrsystembackend.dto;
+package com.ly.hrsystembackend.dto.userDto;
 
 import com.ly.hrsystembackend.enums.Role;
 import jakarta.validation.constraints.NotBlank;

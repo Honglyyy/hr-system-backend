@@ -1,4 +1,4 @@
-package com.ly.hrsystembackend.dto;
+package com.ly.hrsystembackend.dto.authDto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
