@@ -13,4 +13,4 @@ spring:
     open-in-view: false
 jwt:
   secret:
-    key: ${JWT_SECRECT_KEY}
+    key: ${JWT_SECRET_KEY}

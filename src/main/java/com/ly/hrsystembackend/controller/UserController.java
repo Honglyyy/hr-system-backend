@@ -18,9 +18,14 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/create")
-    @PreAuthorize("hasAllRoles('ADMIN', 'HR')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'HR')")
     public ResponseEntity<String> createUser(@Valid @RequestBody UserRequest userRequest) {
         return ResponseEntity.ok(userService.createUser(userRequest));
     }
 
+    @GetMapping
+    @PreAuthorize("hasRole('EMPLOYEE')")
+    public String greet(){
+        return "Hello World!";
+    }
 }
