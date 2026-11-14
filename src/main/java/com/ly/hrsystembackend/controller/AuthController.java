@@ -20,9 +20,6 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<String> authenticate(@Valid @RequestBody AuthRequest authRequest) {
-        if (authRequest == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
         return ResponseEntity.ok(authService.authenticate(authRequest));
     }
 

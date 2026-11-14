@@ -1,5 +1,6 @@
 package com.ly.hrsystembackend.filter;
 
+import com.ly.hrsystembackend.exception.JwtTokenExtractionException;
 import com.ly.hrsystembackend.service.CustomUserDetailService;
 import com.ly.hrsystembackend.utils.JwtUtil;
 import jakarta.servlet.FilterChain;
@@ -52,8 +53,9 @@ public class JwtFilter extends OncePerRequestFilter {
                 }
             }
         }
-        catch (Exception e){
+        catch (JwtTokenExtractionException e){
             SecurityContextHolder.clearContext();
+            throw new  JwtTokenExtractionException(e.getMessage());
         }
 
         filterChain.doFilter(request,response);

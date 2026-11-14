@@ -54,4 +54,12 @@ public class GlobalExceptionHandler {
         errors.put("message", "Employee is not active");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errors);
     }
+
+    @ExceptionHandler(JwtTokenExtractionException.class)
+    public ResponseEntity<?> handleJwtTokenExtractionException(JwtTokenExtractionException ex) {
+        Map<String, String> errors = new HashMap<>();
+        log.warn("Token extraction fail!! {}",ex.getMessage());
+        errors.put("message", "Token extraction fail");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errors);
+    }
 }
