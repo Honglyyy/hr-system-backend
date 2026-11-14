@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ public class JwtUtil {
 
     private final long EXPIRATION = 1000 * 60 * 60 * 24;
 
+    @PostConstruct
     private SecretKey getSigningKey() {
         byte[] encodedKey = Base64.getDecoder().decode(jwtSecretKey);
         return Keys.hmacShaKeyFor(encodedKey);
