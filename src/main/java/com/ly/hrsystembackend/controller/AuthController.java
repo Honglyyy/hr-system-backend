@@ -1,10 +1,9 @@
 package com.ly.hrsystembackend.controller;
 
-import com.ly.hrsystembackend.dto.AuthRequest;
+import com.ly.hrsystembackend.dto.authDto.AuthRequest;
 import com.ly.hrsystembackend.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,12 +1,16 @@
 package com.ly.hrsystembackend.service;
 
-import com.ly.hrsystembackend.dto.UserRequest;
+import com.ly.hrsystembackend.dto.userDto.UserRequest;
+import com.ly.hrsystembackend.dto.userDto.UserResponse;
 import com.ly.hrsystembackend.enums.Role;
 import com.ly.hrsystembackend.exception.EmployeeIdAlreadyExistException;
+import com.ly.hrsystembackend.mapper.UserMapper;
 import com.ly.hrsystembackend.model.User;
 import com.ly.hrsystembackend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     public String createUser(UserRequest userRequest) {
         if (userRepository.findByEmployeeId(userRequest.employeeId()).isPresent()) {
@@ -35,5 +40,9 @@ public class UserService {
         userRepository.save(user);
 
         return "Success";
+    }
+
+    public Page<UserResponse> getUsers(Pageable pageable) {
+        return userRepository.findAll(pageable).map(userMapper::toUserResponse);
     }
 }
