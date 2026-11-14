@@ -1,8 +1,9 @@
 package com.ly.hrsystembackend.dto;
 
 import com.ly.hrsystembackend.enums.Role;
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public record UserRequest(
         @NotBlank(message = "Employee Id must not be empty.")
