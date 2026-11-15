@@ -14,3 +14,8 @@ spring:
 jwt:
   secret:
     key: ${JWT_SECRET_KEY}
+
+system:
+  admin:
+    id: ${ADMIN_ID}
+    password: ${ADMIN_PASSWORD}
