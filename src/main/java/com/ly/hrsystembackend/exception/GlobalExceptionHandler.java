@@ -62,4 +62,12 @@ public class GlobalExceptionHandler {
         errors.put("message", "Token extraction fail");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errors);
     }
+
+    @ExceptionHandler(DepartmentNotFoundException.class)
+    public ResponseEntity<?> handleDepartmentNotFoundException(DepartmentNotFoundException ex) {
+        Map<String, String> errors = new HashMap<>();
+        log.warn("Department is not found!! {}",ex.getMessage());
+        errors.put("message", "Department is not found");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errors);
+    }
 }
