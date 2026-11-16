@@ -1,7 +1,7 @@
 package com.ly.hrsystembackend.service;
 
-import com.ly.hrsystembackend.dto.departmentDto.DepartmentRequest;
-import com.ly.hrsystembackend.dto.departmentDto.DepartmentResponse;
+import com.ly.hrsystembackend.dto.departmentdto.DepartmentRequest;
+import com.ly.hrsystembackend.dto.departmentdto.DepartmentResponse;
 import com.ly.hrsystembackend.exception.DepartmentNotFoundException;
 import com.ly.hrsystembackend.mapper.DepartmentMapper;
 import com.ly.hrsystembackend.model.Department;

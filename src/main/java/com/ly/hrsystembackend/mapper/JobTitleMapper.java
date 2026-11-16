@@ -1,9 +1,8 @@
 package com.ly.hrsystembackend.mapper;
 
-import com.ly.hrsystembackend.dto.jobTitleDto.JobTitleRequest;
-import com.ly.hrsystembackend.dto.jobTitleDto.JobTitleResponse;
+import com.ly.hrsystembackend.dto.jobtitledto.JobTitleRequest;
+import com.ly.hrsystembackend.dto.jobtitledto.JobTitleResponse;
 import com.ly.hrsystembackend.model.JobTitle;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 
 @Component

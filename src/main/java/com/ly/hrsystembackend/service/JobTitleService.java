@@ -1,7 +1,7 @@
 package com.ly.hrsystembackend.service;
 
-import com.ly.hrsystembackend.dto.jobTitleDto.JobTitleRequest;
-import com.ly.hrsystembackend.dto.jobTitleDto.JobTitleResponse;
+import com.ly.hrsystembackend.dto.jobtitledto.JobTitleRequest;
+import com.ly.hrsystembackend.dto.jobtitledto.JobTitleResponse;
 import com.ly.hrsystembackend.exception.JobTitleNotFoundException;
 import com.ly.hrsystembackend.mapper.JobTitleMapper;
 import com.ly.hrsystembackend.model.JobTitle;

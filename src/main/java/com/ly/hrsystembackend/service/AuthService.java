@@ -1,6 +1,6 @@
 package com.ly.hrsystembackend.service;
 
-import com.ly.hrsystembackend.dto.authDto.AuthRequest;
+import com.ly.hrsystembackend.dto.authdto.AuthRequest;
 import com.ly.hrsystembackend.exception.EmployeeNotFoundException;
 import com.ly.hrsystembackend.exception.InactiveEmployeeException;
 import com.ly.hrsystembackend.exception.LoginFailedException;

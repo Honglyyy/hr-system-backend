@@ -1,4 +1,4 @@
-package com.ly.hrsystembackend.dto.departmentDto;
+package com.ly.hrsystembackend.dto.departmentdto;
 
 import lombok.Builder;
 

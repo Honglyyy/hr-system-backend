@@ -1,6 +1,6 @@
 package com.ly.hrsystembackend.controller;
 
-import com.ly.hrsystembackend.dto.authDto.AuthRequest;
+import com.ly.hrsystembackend.dto.authdto.AuthRequest;
 import com.ly.hrsystembackend.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

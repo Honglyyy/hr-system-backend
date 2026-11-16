@@ -1,4 +1,4 @@
-package com.ly.hrsystembackend.dto.userDto;
+package com.ly.hrsystembackend.dto.userdto;
 
 import com.ly.hrsystembackend.enums.Role;
 import lombok.Builder;

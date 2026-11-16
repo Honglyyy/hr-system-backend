@@ -1,7 +1,7 @@
 package com.ly.hrsystembackend.service;
 
-import com.ly.hrsystembackend.dto.userDto.UserRequest;
-import com.ly.hrsystembackend.dto.userDto.UserResponse;
+import com.ly.hrsystembackend.dto.userdto.UserRequest;
+import com.ly.hrsystembackend.dto.userdto.UserResponse;
 import com.ly.hrsystembackend.enums.Role;
 import com.ly.hrsystembackend.exception.EmployeeIdAlreadyExistException;
 import com.ly.hrsystembackend.mapper.UserMapper;

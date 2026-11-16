@@ -1,15 +1,13 @@
-package com.ly.hrsystembackend.dto.jobTitleDto;
+package com.ly.hrsystembackend.dto.jobtitledto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
-import java.time.Instant;
-import java.util.UUID;
-
 @Builder
-public record JobTitleResponse(
-        UUID id,
+public record JobTitleRequest(
+        @NotNull
+        @NotBlank
         String title
 ) {
 }

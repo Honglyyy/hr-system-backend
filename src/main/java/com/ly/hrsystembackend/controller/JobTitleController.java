@@ -1,9 +1,8 @@
 package com.ly.hrsystembackend.controller;
 
-import com.ly.hrsystembackend.dto.jobTitleDto.JobTitleRequest;
-import com.ly.hrsystembackend.dto.jobTitleDto.JobTitleResponse;
+import com.ly.hrsystembackend.dto.jobtitledto.JobTitleRequest;
+import com.ly.hrsystembackend.dto.jobtitledto.JobTitleResponse;
 import com.ly.hrsystembackend.mapper.JobTitleMapper;
-import com.ly.hrsystembackend.model.JobTitle;
 import com.ly.hrsystembackend.service.JobTitleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

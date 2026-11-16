@@ -1,4 +1,4 @@
-package com.ly.hrsystembackend.dto.departmentDto;
+package com.ly.hrsystembackend.dto.departmentdto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

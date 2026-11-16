@@ -1,7 +1,7 @@
 package com.ly.hrsystembackend.mapper;
 
-import com.ly.hrsystembackend.dto.departmentDto.DepartmentRequest;
-import com.ly.hrsystembackend.dto.departmentDto.DepartmentResponse;
+import com.ly.hrsystembackend.dto.departmentdto.DepartmentRequest;
+import com.ly.hrsystembackend.dto.departmentdto.DepartmentResponse;
 import com.ly.hrsystembackend.model.Department;
 import org.springframework.stereotype.Component;
 

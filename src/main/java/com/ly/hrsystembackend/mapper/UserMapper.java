@@ -1,6 +1,6 @@
 package com.ly.hrsystembackend.mapper;
 
-import com.ly.hrsystembackend.dto.userDto.UserResponse;
+import com.ly.hrsystembackend.dto.userdto.UserResponse;
 import com.ly.hrsystembackend.model.User;
 import org.springframework.stereotype.Component;
 
