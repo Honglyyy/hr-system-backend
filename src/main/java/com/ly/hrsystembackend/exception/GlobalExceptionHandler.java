@@ -25,49 +25,50 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(EmployeeNotFoundException.class)
     public ResponseEntity<?> handleEmployeeNotFoundException(EmployeeNotFoundException ex) {
-        Map<String, String> errors = new HashMap<>();
-        log.warn("Employee not found {}",ex.getMessage());
-        errors.put("message", "Employee not found");
+        Map<String, String> errors = getErrors(ex, "Employee not found");
         return ResponseEntity.badRequest().body(errors);
     }
 
     @ExceptionHandler(EmployeeIdAlreadyExistException.class)
     public ResponseEntity<?> handleEmployeeIdAlreadyExist(EmployeeIdAlreadyExistException ex) {
-        Map<String, String> errors = new HashMap<>();
-        log.warn("Employee already exist {}",ex.getMessage());
-        errors.put("message", "Employee already exist");
+        Map<String, String> errors = getErrors(ex, "Employee already exist");
         return ResponseEntity.badRequest().body(errors);
     }
 
     @ExceptionHandler(LoginFailedException.class)
     public ResponseEntity<?> handleLoginFail(LoginFailedException ex) {
-        Map<String, String> errors = new HashMap<>();
-        log.warn("Login fail!! {}",ex.getMessage());
-        errors.put("message", "The login fail");
+        Map<String, String> errors = getErrors(ex, "Login failed");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errors);
     }
 
     @ExceptionHandler(InactiveEmployeeException.class)
     public ResponseEntity<?> handleInactiveEmployee(InactiveEmployeeException ex) {
-        Map<String, String> errors = new HashMap<>();
-        log.warn("Employee is not active!! {}",ex.getMessage());
-        errors.put("message", "Employee is not active");
+        Map<String, String> errors = getErrors(ex, "Inactive employee");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errors);
     }
 
     @ExceptionHandler(JwtTokenExtractionException.class)
     public ResponseEntity<?> handleJwtTokenExtractionException(JwtTokenExtractionException ex) {
-        Map<String, String> errors = new HashMap<>();
-        log.warn("Token extraction fail!! {}",ex.getMessage());
-        errors.put("message", "Token extraction fail");
+        Map<String, String> errors = getErrors(ex, "JWT Token extraction failed");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errors);
     }
 
     @ExceptionHandler(DepartmentNotFoundException.class)
     public ResponseEntity<?> handleDepartmentNotFoundException(DepartmentNotFoundException ex) {
+        Map<String, String> errors = getErrors(ex, "Department not found!!");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
+    }
+
+    @ExceptionHandler(JobTitleNotFoundException.class)
+    public ResponseEntity<?> handleJobTitleNotFoundException(JobTitleNotFoundException ex) {
+        Map<String, String> errors = getErrors(ex, "Job title is not found!!");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
+    }
+
+    private Map<String, String> getErrors(Exception ex, String message) {
         Map<String, String> errors = new HashMap<>();
-        log.warn("Department is not found!! {}",ex.getMessage());
-        errors.put("message", "Department is not found");
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errors);
+        log.warn(message + " " +ex.getMessage());
+        errors.put("message", message);
+        return errors;
     }
 }
