@@ -40,7 +40,7 @@ public class EmployeeProfile {
     @Column(name = "email", nullable = false, unique = true, length = 255)
     private String email;
 
-    @Column(name = "phone_number", nullable = false, length = 20)
+    @Column(name = "phone_number", nullable = false, length = 9)
     @Pattern(regexp = "^(?:\\+855|855|0)[1-9]\\d{7,8}$")
     private String phoneNumber;
 
