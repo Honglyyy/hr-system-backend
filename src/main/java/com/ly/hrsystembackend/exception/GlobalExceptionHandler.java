@@ -65,6 +65,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
     }
 
+    @ExceptionHandler(PositionNotFoundException.class)
+    public ResponseEntity<?> handlePositionNotFoundException(PositionNotFoundException ex) {
+        Map<String, String> errors = getErrors(ex, "Position not found!!");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
+    }
+
     private Map<String, String> getErrors(Exception ex, String message) {
         Map<String, String> errors = new HashMap<>();
         log.warn(message + " " +ex.getMessage());
