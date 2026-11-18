@@ -16,6 +16,12 @@ POSTGRES_USER={db username}
 DB_PASSWORD={db password}
 DB_URL=jdbc:postgresql://localhost:5431/{db name}
 DB_USERNAME={db username}
+ADMIN_ID={admin_employee_id}
+ADMIN_PASSWORD={admin_employee_password}
+CLOUDINARY_API_KEY={cloudinary_api_key}
+CLOUDINARY_API_SECRET={cloudinary_api_secret}
+CLOUDINARY_CLOUD={cloudinary_cloud}
+JWT_SECRET_KEY= 512 key for jwt
 ```
 
 ## Run:

@@ -63,6 +63,12 @@ public class EmployeeProfile {
     @Column(name = "salary", precision = 12, scale = 2)
     private BigDecimal salary;
 
+    @Column(name = "profile_picture_url", nullable = true)
+    private String profilePictureUrl;
+
+    @Column(name = "profile_picture_id", nullable = true)
+    private String profilePictureId;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;

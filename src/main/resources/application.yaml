@@ -19,3 +19,8 @@ system:
   admin:
     id: ${ADMIN_ID}
     password: ${ADMIN_PASSWORD}
+
+cloudinary:
+  cloud: ${CLOUDINARY_CLOUD}
+  api-key: ${CLOUDINARY_API_KEY}
+  api-secret: ${CLOUDINARY_API_SECRET}

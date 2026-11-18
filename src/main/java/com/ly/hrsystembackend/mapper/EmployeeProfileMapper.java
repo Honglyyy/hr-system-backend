@@ -29,6 +29,8 @@ public class EmployeeProfileMapper {
                 .employeeStatus(employeeProfile.getStatus())
                 .hireDate(employeeProfile.getHireDate())
                 .salary(employeeProfile.getSalary())
+                .profilePictureUrl(employeeProfile.getProfilePictureUrl())
+                .profilePictureId(employeeProfile.getProfilePictureId())
                 .build();
     }
 

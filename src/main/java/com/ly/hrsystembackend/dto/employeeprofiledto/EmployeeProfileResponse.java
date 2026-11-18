@@ -19,6 +19,8 @@ public record EmployeeProfileResponse(
         String managerId,
         EmployeeStatus employeeStatus,
         LocalDate hireDate,
-        BigDecimal salary
+        BigDecimal salary,
+        String profilePictureUrl,
+        String profilePictureId
 ) {
 }
