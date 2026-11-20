@@ -25,7 +25,7 @@ public class EmployeeProfileMapper {
                 .email(employeeProfile.getEmail())
                 .phoneNumber(employeeProfile.getPhoneNumber())
                 .positionId(employeeProfile.getPosition().getId())
-                .managerId(employeeProfile.getManager().getEmployeeId())
+                .managerId(employeeProfile.getManager() != null ? employeeProfile.getManager().getEmployeeId() : null)
                 .employeeStatus(employeeProfile.getStatus())
                 .hireDate(employeeProfile.getHireDate())
                 .salary(employeeProfile.getSalary())

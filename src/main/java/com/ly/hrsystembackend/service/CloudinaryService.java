@@ -31,4 +31,8 @@ public class CloudinaryService {
             return null;
         }
     }
+
+    public void deleteImageFromCloudinary(String publicId) throws IOException {
+         cloudinary.uploader().destroy(publicId,ObjectUtils.emptyMap());
+    }
 }
