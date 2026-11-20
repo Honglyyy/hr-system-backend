@@ -2,7 +2,6 @@ package com.ly.hrsystembackend.utils;
 
 import com.ly.hrsystembackend.enums.EmployeeStatus;
 import com.ly.hrsystembackend.enums.Role;
-import com.ly.hrsystembackend.exception.EmployeeIdAlreadyExistException;
 import com.ly.hrsystembackend.model.*;
 import com.ly.hrsystembackend.repository.*;
 import lombok.RequiredArgsConstructor;

@@ -2,8 +2,6 @@ package com.ly.hrsystembackend.mapper;
 
 import com.ly.hrsystembackend.dto.positiondto.PositionRequest;
 import com.ly.hrsystembackend.dto.positiondto.PositionResponse;
-import com.ly.hrsystembackend.exception.DepartmentNotFoundException;
-import com.ly.hrsystembackend.exception.JobTitleNotFoundException;
 import com.ly.hrsystembackend.model.Department;
 import com.ly.hrsystembackend.model.JobTitle;
 import com.ly.hrsystembackend.model.Position;

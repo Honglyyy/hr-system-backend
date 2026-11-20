@@ -6,7 +6,6 @@ import com.ly.hrsystembackend.enums.EmployeeStatus;
 import com.ly.hrsystembackend.enums.Role;
 import com.ly.hrsystembackend.exception.EmployeeIdAlreadyExistException;
 import com.ly.hrsystembackend.exception.EmployeeNotFoundException;
-import com.ly.hrsystembackend.mapper.EmployeeProfileMapper;
 import com.ly.hrsystembackend.mapper.UserMapper;
 import com.ly.hrsystembackend.model.EmployeeProfile;
 import com.ly.hrsystembackend.model.User;
