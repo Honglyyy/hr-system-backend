@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -53,9 +54,12 @@ public class JwtFilter extends OncePerRequestFilter {
                 }
             }
         }
-        catch (JwtTokenExtractionException e){
+        catch (JwtTokenExtractionException e) {
             SecurityContextHolder.clearContext();
-            throw new  JwtTokenExtractionException(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.getWriter().write("{\"message\":\"Invalid or malformed JWT token\"}");
+            return;
         }
 
         filterChain.doFilter(request,response);

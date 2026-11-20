@@ -36,7 +36,20 @@ public class AuthService {
             UsernamePasswordAuthenticationToken user =
                     new UsernamePasswordAuthenticationToken(activeUser.getEmployeeId(), authRequest.password());
             authenticationManager.authenticate(user);
-        } catch (Exception e) {
+        }
+        catch (EmployeeNotFoundException e){
+            log.error("Employee not found: {}", e.getMessage());
+            throw new EmployeeNotFoundException("Employee not found");
+        }
+        catch (InactiveEmployeeException e){
+            log.error("Inactive employee: {}", e.getMessage());
+            throw new InactiveEmployeeException("Inactive employee");
+        }
+        catch (LoginFailedException e){
+            log.error("Login failed: {}", e.getMessage());
+            throw new LoginFailedException("Login failed");
+        }
+        catch (Exception e) {
             log.error("Authentication failed: {}", e.getMessage());
             throw new LoginFailedException("Authentication failed");
         }
