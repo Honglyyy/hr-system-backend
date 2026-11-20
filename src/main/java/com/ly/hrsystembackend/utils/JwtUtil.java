@@ -21,10 +21,15 @@ public class JwtUtil {
 
     private final long EXPIRATION = 1000 * 60 * 60 * 24;
 
+    private SecretKey signingKey;
     @PostConstruct
-    private SecretKey getSigningKey() {
+    private void initSigningKey() {
         byte[] encodedKey = Base64.getDecoder().decode(jwtSecretKey);
-        return Keys.hmacShaKeyFor(encodedKey);
+        signingKey = Keys.hmacShaKeyFor(encodedKey);
+    }
+
+    private SecretKey getSigningKey() {
+        return signingKey;
     }
 
     public String generateToken(User user) {
