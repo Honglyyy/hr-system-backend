@@ -1,6 +1,11 @@
 package com.ly.hrsystembackend.controller;
 
+import com.ly.hrsystembackend.annotation.CurrentUser;
 import com.ly.hrsystembackend.dto.authdto.AuthRequest;
+import com.ly.hrsystembackend.dto.userdto.UserChangePasswordRequest;
+import com.ly.hrsystembackend.dto.userdto.UserRequest;
+import com.ly.hrsystembackend.dto.userdto.UserResponse;
+import com.ly.hrsystembackend.model.User;
 import com.ly.hrsystembackend.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,4 +27,8 @@ public class AuthController {
         return ResponseEntity.ok(authService.authenticate(authRequest));
     }
 
+    @PostMapping("/change-password")
+    public ResponseEntity<UserResponse> changePassword(@Valid @RequestBody UserChangePasswordRequest userChangePasswordRequest, @CurrentUser User currentUser) {
+        return ResponseEntity.ok(authService.changePassword(currentUser, userChangePasswordRequest));
+    }
 }

@@ -1,9 +1,12 @@
 package com.ly.hrsystembackend.service;
 
 import com.ly.hrsystembackend.dto.authdto.AuthRequest;
+import com.ly.hrsystembackend.dto.userdto.UserChangePasswordRequest;
+import com.ly.hrsystembackend.dto.userdto.UserResponse;
 import com.ly.hrsystembackend.exception.EmployeeNotFoundException;
 import com.ly.hrsystembackend.exception.InactiveEmployeeException;
 import com.ly.hrsystembackend.exception.LoginFailedException;
+import com.ly.hrsystembackend.mapper.UserMapper;
 import com.ly.hrsystembackend.model.User;
 import com.ly.hrsystembackend.repository.UserRepository;
 import com.ly.hrsystembackend.utils.JwtUtil;
@@ -11,7 +14,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -22,6 +27,8 @@ public class AuthService {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     public String authenticate(AuthRequest authRequest) {
         User activeUser = userRepository.findByEmployeeId(authRequest.employeeId())
@@ -55,5 +62,16 @@ public class AuthService {
         }
 
         return jwtUtil.generateToken(activeUser);
+    }
+
+    public UserResponse changePassword(User currentUser, UserChangePasswordRequest userChangePasswordRequest) {
+        System.out.println("Hello");
+        if(!passwordEncoder.matches(userChangePasswordRequest.oldPassword(), (currentUser.getPassword()))){
+            throw new BadCredentialsException("Passwords don't match.");
+        }
+
+        currentUser.setPassword(passwordEncoder.encode(userChangePasswordRequest.newPassword()));
+
+        return userMapper.toUserResponse(userRepository.save(currentUser));
     }
 }
