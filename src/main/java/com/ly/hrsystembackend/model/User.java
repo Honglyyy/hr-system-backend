@@ -1,5 +1,6 @@
 package com.ly.hrsystembackend.model;
 
+import com.ly.hrsystembackend.enums.EmployeeStatus;
 import com.ly.hrsystembackend.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -86,6 +87,12 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return Boolean.TRUE.equals(isActive);
+        if (!Boolean.TRUE.equals(isActive)) {
+            return false;
+        }
+        if (employeeProfile != null && employeeProfile.getStatus() == EmployeeStatus.TERMINATED) {
+            return false;
+        }
+        return true;
     }
 }

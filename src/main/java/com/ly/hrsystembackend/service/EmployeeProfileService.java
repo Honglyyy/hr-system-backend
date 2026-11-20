@@ -3,6 +3,7 @@ package com.ly.hrsystembackend.service;
 import com.ly.hrsystembackend.dto.employeeprofiledto.EmployeeProfileRequest;
 import com.ly.hrsystembackend.dto.employeeprofiledto.EmployeeProfileResponse;
 import com.ly.hrsystembackend.dto.employeeprofiledto.EmployeeProfileUpdateRequest;
+import com.ly.hrsystembackend.enums.EmployeeStatus;
 import com.ly.hrsystembackend.exception.EmployeeNotFoundException;
 import com.ly.hrsystembackend.exception.PositionNotFoundException;
 import com.ly.hrsystembackend.mapper.EmployeeProfileMapper;
@@ -10,6 +11,7 @@ import com.ly.hrsystembackend.model.EmployeeProfile;
 import com.ly.hrsystembackend.model.Position;
 import com.ly.hrsystembackend.repository.EmployeeProfileRepository;
 import com.ly.hrsystembackend.repository.PositionRepository;
+import com.ly.hrsystembackend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ public class EmployeeProfileService {
     private final EmployeeProfileMapper employeeProfileMapper;
     private final CloudinaryService cloudinaryService;
     private final PositionRepository positionRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public EmployeeProfileResponse addEmployeeProfile(MultipartFile file, EmployeeProfileRequest employeeProfileRequest) throws IOException {
@@ -102,5 +105,27 @@ public class EmployeeProfileService {
         existingEmployeeProfile.setProfilePictureId(null);
 
         return employeeProfileMapper.toEmployeeProfileResponse(employeeProfileRepository.save(existingEmployeeProfile));
+    }
+
+    @Transactional
+    public EmployeeProfileResponse revokeEmployeeEmployment(UUID id) {
+        EmployeeProfile existingEmployeeProfile = employeeProfileRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee Profile Not Found!"));
+
+        if (existingEmployeeProfile.getStatus() == EmployeeStatus.TERMINATED) {
+            return employeeProfileMapper.toEmployeeProfileResponse(existingEmployeeProfile);
+        }
+
+        existingEmployeeProfile.setStatus(EmployeeStatus.TERMINATED);
+
+        userRepository.findByEmployeeId(existingEmployeeProfile.getEmployeeId())
+                .ifPresent(user -> {
+                    user.setIsActive(false);
+                    userRepository.save(user);
+                });
+
+        return employeeProfileMapper.toEmployeeProfileResponse(
+                employeeProfileRepository.save(existingEmployeeProfile)
+        );
     }
 }

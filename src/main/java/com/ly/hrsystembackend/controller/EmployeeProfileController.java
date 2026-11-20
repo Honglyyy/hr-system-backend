@@ -52,4 +52,12 @@ public class EmployeeProfileController {
     ) throws IOException {
         return ResponseEntity.status(HttpStatus.OK).body(employeeProfileService.deleteEmployeeProfilePicture(id));
     }
+
+    @PostMapping("/{id}/revoke")
+    @PreAuthorize("hasAnyRole('ADMIN', 'HR')")
+    public ResponseEntity<EmployeeProfileResponse> revokeEmployeeProfile(
+            @PathVariable UUID id
+    ){
+        return ResponseEntity.status(HttpStatus.OK).body(employeeProfileService.revokeEmployeeEmployment(id));
+    }
 }
