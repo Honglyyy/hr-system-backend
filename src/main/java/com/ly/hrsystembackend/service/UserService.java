@@ -2,10 +2,15 @@ package com.ly.hrsystembackend.service;
 
 import com.ly.hrsystembackend.dto.userdto.UserRequest;
 import com.ly.hrsystembackend.dto.userdto.UserResponse;
+import com.ly.hrsystembackend.enums.EmployeeStatus;
 import com.ly.hrsystembackend.enums.Role;
 import com.ly.hrsystembackend.exception.EmployeeIdAlreadyExistException;
+import com.ly.hrsystembackend.exception.EmployeeNotFoundException;
+import com.ly.hrsystembackend.mapper.EmployeeProfileMapper;
 import com.ly.hrsystembackend.mapper.UserMapper;
+import com.ly.hrsystembackend.model.EmployeeProfile;
 import com.ly.hrsystembackend.model.User;
+import com.ly.hrsystembackend.repository.EmployeeProfileRepository;
 import com.ly.hrsystembackend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +26,15 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
+    private final EmployeeProfileRepository employeeProfileRepository;
 
-    public String createUser(UserRequest userRequest) {
+    public UserResponse createUser(UserRequest userRequest) {
         if (userRepository.findByEmployeeId(userRequest.employeeId()).isPresent()) {
             throw new EmployeeIdAlreadyExistException("Employee Id already exist.");
         }
+        EmployeeProfile employeeProfile = employeeProfileRepository.findByEmployeeId(userRequest.employeeId())
+                .orElseThrow(()->new EmployeeNotFoundException("Employee Id not found."));
+
 
         Role role = userRequest.role();
         if (role == Role.ADMIN || role == null) {
@@ -33,13 +42,15 @@ public class UserService {
         }
 
         User user = new User();
-        user.setEmployeeId(userRequest.employeeId());
+        user.setEmployeeId(employeeProfile.getEmployeeId());
         user.setRole(role);
         user.setPassword(passwordEncoder.encode(userRequest.password()));
-        user.setIsActive(userRequest.isActive());
+        user.setIsActive(
+                employeeProfile.getStatus() != EmployeeStatus.TERMINATED ? Boolean.TRUE : Boolean.FALSE
+        );
         userRepository.save(user);
 
-        return "Success";
+        return userMapper.toUserResponse(user);
     }
 
     public Page<UserResponse> getUsers(Pageable pageable) {

@@ -16,8 +16,6 @@ public record UserRequest(
         String password,
 
         @NotNull(message = "Role must not be null.")
-        Role role,
-
-        Boolean isActive
+        Role role
 ) {
 }

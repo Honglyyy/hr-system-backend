@@ -45,8 +45,7 @@ public class User implements UserDetails {
     private Role role = Role.EMPLOYEE;
 
     @Column(name = "is_active", nullable = false)
-    @Builder.Default
-    private Boolean isActive = true;
+    private Boolean isActive;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

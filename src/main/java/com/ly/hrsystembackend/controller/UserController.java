@@ -21,7 +21,7 @@ public class UserController {
 
     @PostMapping("/create")
     @PreAuthorize("hasAnyRole('ADMIN', 'HR')")
-    public ResponseEntity<String> createUser(@Valid @RequestBody UserRequest userRequest) {
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest userRequest) {
         return ResponseEntity.ok(userService.createUser(userRequest));
     }
 
