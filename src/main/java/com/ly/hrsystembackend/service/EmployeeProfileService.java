@@ -32,9 +32,18 @@ public class EmployeeProfileService {
 
     @Transactional
     public EmployeeProfileResponse addEmployeeProfile(MultipartFile file, EmployeeProfileRequest employeeProfileRequest) throws IOException {
-        EmployeeProfile emp = employeeProfileMapper.toEmployeeProfile(employeeProfileRequest);
-        Map<?, ?> uploadRes =  cloudinaryService.uploadImageToCloudinary(file, "emp");
+        Position position = positionRepository.findById(employeeProfileRequest.positionId())
+                .orElseThrow(() -> new PositionNotFoundException("Position Not Found"));
 
+        EmployeeProfile manager = null;
+        if (employeeProfileRequest.managerId() != null && !employeeProfileRequest.managerId().isBlank()) {
+            manager = employeeProfileRepository.findByEmployeeId(employeeProfileRequest.managerId())
+                    .orElseThrow(() -> new EmployeeNotFoundException("Manager Not Found"));
+        }
+
+        EmployeeProfile emp = employeeProfileMapper.toEmployeeProfile(employeeProfileRequest, position, manager);
+
+        Map<?, ?> uploadRes = cloudinaryService.uploadImageToCloudinary(file, "emp");
         emp.setProfilePictureUrl(uploadRes.get("secure_url").toString());
         emp.setProfilePictureId(uploadRes.get("public_id").toString());
 

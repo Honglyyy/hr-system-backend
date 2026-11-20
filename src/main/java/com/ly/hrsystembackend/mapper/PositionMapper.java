@@ -34,17 +34,14 @@ public class PositionMapper {
                 .build();
     }
 
-    public Position toEntity(PositionRequest positionRequest) {
+    public Position toEntity(PositionRequest positionRequest,
+                             JobTitle jobTitle,
+                             Department department) {
 
         if (positionRequest == null) {
             return null;
         }
 
-        Department department = departmentRepository.findById(positionRequest.departmentId())
-                .orElseThrow(()->new DepartmentNotFoundException("Department not found"));
-
-        JobTitle jobTitle = jobTitleRepository.findById(positionRequest.jobTitleId())
-                .orElseThrow(()-> new JobTitleNotFoundException("Job Title not found"));
 
         return Position.builder()
                 .department(department)

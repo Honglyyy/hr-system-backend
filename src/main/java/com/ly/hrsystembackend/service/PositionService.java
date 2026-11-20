@@ -29,13 +29,13 @@ public class PositionService {
 
     @Transactional
     public PositionResponse createPosition(PositionRequest positionRequest) {
-        departmentRepository.findById(positionRequest.departmentId())
+        Department department = departmentRepository.findById(positionRequest.departmentId())
                 .orElseThrow(()->new DepartmentNotFoundException("Department not found"));
 
-        jobTitleRepository.findById(positionRequest.jobTitleId())
+        JobTitle jobTitle =  jobTitleRepository.findById(positionRequest.jobTitleId())
                 .orElseThrow(()-> new JobTitleNotFoundException("Job Title not found"));
 
-        Position position = positionRepository.save(positionMapper.toEntity(positionRequest));
+        Position position = positionRepository.save(positionMapper.toEntity(positionRequest, jobTitle, department));
 
         return positionMapper.toPositionResponse(position);
     }

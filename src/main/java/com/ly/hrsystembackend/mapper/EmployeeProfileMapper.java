@@ -2,22 +2,14 @@ package com.ly.hrsystembackend.mapper;
 
 import com.ly.hrsystembackend.dto.employeeprofiledto.EmployeeProfileRequest;
 import com.ly.hrsystembackend.dto.employeeprofiledto.EmployeeProfileResponse;
-import com.ly.hrsystembackend.exception.EmployeeNotFoundException;
-import com.ly.hrsystembackend.exception.PositionNotFoundException;
 import com.ly.hrsystembackend.model.EmployeeProfile;
 import com.ly.hrsystembackend.model.Position;
-import com.ly.hrsystembackend.repository.EmployeeProfileRepository;
-import com.ly.hrsystembackend.repository.PositionRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class EmployeeProfileMapper {
-    private final PositionRepository positionRepository;
-    private final EmployeeProfileRepository employeeProfileRepository;
 
-    public EmployeeProfileResponse  toEmployeeProfileResponse(EmployeeProfile employeeProfile) {
+    public EmployeeProfileResponse toEmployeeProfileResponse(EmployeeProfile employeeProfile) {
         return EmployeeProfileResponse.builder()
                 .employeeId(employeeProfile.getEmployeeId())
                 .firstName(employeeProfile.getFirstName())
@@ -34,26 +26,21 @@ public class EmployeeProfileMapper {
                 .build();
     }
 
-    public EmployeeProfile toEmployeeProfile(EmployeeProfileRequest employeeProfileRequest) {
-
-        Position position = positionRepository.findById(employeeProfileRequest.positionId())
-                .orElseThrow(()->new PositionNotFoundException("Position Not Found"));
-
-        EmployeeProfile manager = employeeProfileRepository.findByEmployeeId(employeeProfileRequest.managerId())
-                .orElseThrow(() -> new EmployeeNotFoundException("Manager Not Found"));
-
+    // Accepts already-resolved entities — no DB calls, no domain exceptions here
+    public EmployeeProfile toEmployeeProfile(EmployeeProfileRequest request,
+                                             Position position,
+                                             EmployeeProfile manager) {
         return EmployeeProfile.builder()
-                .employeeId(employeeProfileRequest.employeeId())
-                .firstName(employeeProfileRequest.firstName())
-                .lastName(employeeProfileRequest.lastName())
-                .email(employeeProfileRequest.email())
-                .phoneNumber(employeeProfileRequest.phoneNumber())
+                .employeeId(request.employeeId())
+                .firstName(request.firstName())
+                .lastName(request.lastName())
+                .email(request.email())
+                .phoneNumber(request.phoneNumber())
                 .position(position)
                 .manager(manager)
-                .status(employeeProfileRequest.employeeStatus())
-                .hireDate(employeeProfileRequest.hireDate())
-                .salary(employeeProfileRequest.salary())
+                .status(request.employeeStatus())
+                .hireDate(request.hireDate())
+                .salary(request.salary())
                 .build();
     }
-
 }
