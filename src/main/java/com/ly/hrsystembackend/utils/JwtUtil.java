@@ -66,6 +66,7 @@ public class JwtUtil {
                     && empId.equals(employeeId)
                     && userDetails != null
                     && empId.equals(userDetails.getUsername())
+                    && userDetails.isEnabled()
                     && validIssuer
                     && isNotExpired;
         } catch (Exception e) {

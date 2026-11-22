@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class CloudinaryService {
             return cloudinary.uploader().upload(file.getBytes(),option);
         }
         else{
-            return null;
+            return Map.of("error:","Upload failed");
         }
     }
 
