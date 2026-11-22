@@ -34,11 +34,13 @@ public class JobTitleController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'HR')")
     public ResponseEntity<JobTitleResponse> updateJobTitle(@PathVariable UUID id, @Valid @RequestBody JobTitleRequest jobTitleRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(jobTitleService.updateJobTitle(id,jobTitleRequest));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'HR')")
     public ResponseEntity<Void> deleteJobTitle(@PathVariable UUID id) {
         jobTitleService.deleteJobTitle(id);
         return ResponseEntity.status(HttpStatus.OK).build();
