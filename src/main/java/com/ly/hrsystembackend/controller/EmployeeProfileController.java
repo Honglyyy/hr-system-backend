@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,9 +22,12 @@ import java.util.UUID;
 public class EmployeeProfileController {
     private final EmployeeProfileService employeeProfileService;
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAnyRole('ADMIN', 'HR')")
-    public ResponseEntity<EmployeeProfileResponse> addEmployeeProfile(@RequestPart MultipartFile file, @Valid @RequestPart EmployeeProfileRequest employeeProfileRequest) throws IOException {
+    public ResponseEntity<EmployeeProfileResponse> addEmployeeProfile(
+            @RequestPart("file") MultipartFile file,
+            @Valid @RequestPart("employeeProfileRequest") EmployeeProfileRequest employeeProfileRequest
+    ) throws IOException {
         return ResponseEntity.status(HttpStatus.CREATED).body(employeeProfileService.addEmployeeProfile(file,employeeProfileRequest));
     }
 
