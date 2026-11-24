@@ -6,6 +6,9 @@ import com.ly.hrsystembackend.dto.employeeprofiledto.EmployeeProfileUpdateReques
 import com.ly.hrsystembackend.service.EmployeeProfileService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
@@ -58,5 +61,10 @@ public class EmployeeProfileController {
             @PathVariable UUID id
     ){
         return ResponseEntity.status(HttpStatus.OK).body(employeeProfileService.revokeEmployeeEmployment(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<EmployeeProfileResponse>> getEmployeeProfiles(@PageableDefault Pageable pageable){
+        return ResponseEntity.ok().body(employeeProfileService.getEmployeeProfiles(pageable));
     }
 }
