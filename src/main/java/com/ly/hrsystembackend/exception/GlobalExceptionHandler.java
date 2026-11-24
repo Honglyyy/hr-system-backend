@@ -3,12 +3,16 @@ package com.ly.hrsystembackend.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @ControllerAdvice
@@ -17,23 +21,37 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        Map<String, String> errors = new HashMap<String, String>();
+        Map<String, String> fieldErrors = new LinkedHashMap<>();
         e.getBindingResult().getFieldErrors().forEach((error) -> {
-            errors.put(error.getField(), error.getDefaultMessage());
+            fieldErrors.putIfAbsent(error.getField(), error.getDefaultMessage());
         });
-        return ResponseEntity.badRequest().body(errors);
+        return badRequest("Validation failed", fieldErrors);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        return badRequest("Request body is missing or malformed.", Map.of());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException ex) {
-        Map<String, String> errors = getErrors(ex, ex.getMessage());
-        return ResponseEntity.badRequest().body(errors);
+        return badRequest(messageOrDefault(ex.getMessage(), "Invalid request."), Map.of());
     }
 
     @ExceptionHandler(MissingServletRequestPartException.class)
     public ResponseEntity<?> handleMissingServletRequestPartException(MissingServletRequestPartException ex) {
-        Map<String, String> errors = getErrors(ex, "Missing multipart part: " + ex.getRequestPartName());
-        return ResponseEntity.badRequest().body(errors);
+        return badRequest("Missing multipart part: " + ex.getRequestPartName(), Map.of());
+    }
+
+    @ExceptionHandler(MultipartException.class)
+    public ResponseEntity<?> handleMultipartException(MultipartException ex) {
+        return badRequest("Invalid multipart request.", Map.of());
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<?> handleBadCredentialsException(BadCredentialsException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("message", "Current password is incorrect."));
     }
 
     @ExceptionHandler(EmployeeNotFoundException.class)
@@ -89,5 +107,18 @@ public class GlobalExceptionHandler {
         log.warn(message + " " +ex.getMessage());
         errors.put("message", message);
         return errors;
+    }
+
+    private ResponseEntity<Map<String, Object>> badRequest(String message, Map<String, String> fieldErrors) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("message", message);
+        if (!fieldErrors.isEmpty()) {
+            body.put("errors", fieldErrors);
+        }
+        return ResponseEntity.badRequest().body(body);
+    }
+
+    private String messageOrDefault(String message, String fallback) {
+        return message == null || message.isBlank() ? fallback : message;
     }
 }

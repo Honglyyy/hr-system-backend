@@ -6,13 +6,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record UserRequest(
-        @NotBlank(message = "Employee Id must not be empty.")
-        @NotNull(message = "Employee Id must not be null.")
+        @NotBlank(message = "Employee ID is required.")
+        @Size(max = 20, message = "Employee ID must not exceed 20 characters.")
         String employeeId,
 
-        @NotBlank(message = "Password must not be empty.")
-        @NotNull(message = "Password must not be null.")
-        @Size( min = 8,message = "Password must be at least 8 characters long.")
+        @NotBlank(message = "Password is required.")
+        @Size(min = 8, max = 72, message = "Password must be between 8 and 72 characters.")
         String password,
 
         @NotNull(message = "Role must not be null.")

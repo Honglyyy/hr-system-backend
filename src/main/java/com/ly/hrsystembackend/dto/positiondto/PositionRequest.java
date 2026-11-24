@@ -1,6 +1,5 @@
 package com.ly.hrsystembackend.dto.positiondto;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
@@ -8,12 +7,10 @@ import java.util.UUID;
 
 @Builder
 public record PositionRequest(
-        @NotNull
-        @NotBlank
+        @NotNull(message = "Department ID is required.")
         UUID departmentId,
 
-        @NotNull
-        @NotBlank
+        @NotNull(message = "Job title ID is required.")
         UUID jobTitleId
 ) {
 }
