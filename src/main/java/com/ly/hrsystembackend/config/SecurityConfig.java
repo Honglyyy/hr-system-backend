@@ -41,9 +41,15 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        auth->
-                                auth.requestMatchers(HttpMethod.POST, "/api/v1/auth/authenticate").permitAll()
-                                        .anyRequest().authenticated()
+                        auth-> auth
+                                .requestMatchers(HttpMethod.POST, "/api/v1/auth/authenticate").permitAll()
+                                .requestMatchers("/api/v1/users/**").hasAnyRole("ADMIN","HR")
+                                .requestMatchers("/api/v1/positions/**").hasAnyRole("ADMIN","HR")
+                                .requestMatchers("/api/v1/jobtitles/**").hasAnyRole("ADMIN","HR")
+                                .requestMatchers("/api/v1/departments/**").hasAnyRole("ADMIN","HR")
+                                .requestMatchers("/api/v1/employeeprofiles/**").hasAnyRole("ADMIN","HR")
+                        .anyRequest().authenticated()
+
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

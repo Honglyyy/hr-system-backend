@@ -19,26 +19,22 @@ public class PositionController {
     private final PositionService positionService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'HR')")
     public ResponseEntity<PositionResponse> createPosition(@RequestBody PositionRequest positionRequest){
         return ResponseEntity.status(HttpStatus.CREATED).body(positionService.createPosition(positionRequest));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'HR')")
     public ResponseEntity<PositionResponse> updatePosition(@PathVariable UUID id, @RequestBody PositionRequest positionRequest){
         return ResponseEntity.status(HttpStatus.OK).body(positionService.updatePosition(id, positionRequest));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'HR')")
     public ResponseEntity<Void> deletePosition(@PathVariable UUID id){
         positionService.deletePosition(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'HR')")
     public ResponseEntity<List<PositionResponse>> getPositions(){
         return ResponseEntity.ok(positionService.getPositions());
     }

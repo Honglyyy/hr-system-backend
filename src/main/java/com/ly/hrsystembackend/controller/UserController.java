@@ -20,14 +20,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/create")
-    @PreAuthorize("hasAnyRole('ADMIN', 'HR')")
     public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest userRequest) {
         return ResponseEntity.ok(userService.createUser(userRequest));
     }
 
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN','HR')")
     public ResponseEntity<Page<UserResponse>> getAllUser(
             @PageableDefault(size = 5, page = 0, sort = "createdAt")
             Pageable pageable) {
