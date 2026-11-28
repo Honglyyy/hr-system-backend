@@ -12,10 +12,12 @@ import com.ly.hrsystembackend.model.Position;
 import com.ly.hrsystembackend.repository.EmployeeProfileRepository;
 import com.ly.hrsystembackend.repository.PositionRepository;
 import com.ly.hrsystembackend.repository.UserRepository;
+import com.ly.hrsystembackend.specification.EmployeeProfileSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -140,8 +142,18 @@ public class EmployeeProfileService {
         );
     }
 
-    public Page<EmployeeProfileResponse> getEmployeeProfiles(Pageable pageable) {
-        return employeeProfileRepository.findAll(pageable)
+//    public Page<EmployeeProfileResponse> getEmployeeProfiles(Pageable pageable) {
+//        return employeeProfileRepository.findAll(pageable)
+//                .map(employeeProfileMapper::toEmployeeProfileResponse);
+//    }
+
+    public Page<EmployeeProfileResponse> getEmployeeProfilesByStatus(Pageable pageable, EmployeeStatus employeeStatus, String keyword){
+        Specification<EmployeeProfile> spec = Specification.allOf(
+                EmployeeProfileSpecification.hasStatus(employeeStatus),
+                EmployeeProfileSpecification.search(keyword)
+        );
+
+        return employeeProfileRepository.findAll(spec, pageable)
                 .map(employeeProfileMapper::toEmployeeProfileResponse);
     }
 }

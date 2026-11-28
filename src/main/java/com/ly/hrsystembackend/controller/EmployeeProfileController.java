@@ -3,6 +3,7 @@ package com.ly.hrsystembackend.controller;
 import com.ly.hrsystembackend.dto.employeeprofiledto.EmployeeProfileRequest;
 import com.ly.hrsystembackend.dto.employeeprofiledto.EmployeeProfileResponse;
 import com.ly.hrsystembackend.dto.employeeprofiledto.EmployeeProfileUpdateRequest;
+import com.ly.hrsystembackend.enums.EmployeeStatus;
 import com.ly.hrsystembackend.service.EmployeeProfileService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -63,8 +64,16 @@ public class EmployeeProfileController {
         return ResponseEntity.status(HttpStatus.OK).body(employeeProfileService.revokeEmployeeEmployment(id));
     }
 
+//    @GetMapping
+//    public ResponseEntity<Page<EmployeeProfileResponse>> getEmployeeProfiles(@PageableDefault Pageable pageable){
+//        return ResponseEntity.ok().body(employeeProfileService.getEmployeeProfiles(pageable));
+//    }
+
     @GetMapping
-    public ResponseEntity<Page<EmployeeProfileResponse>> getEmployeeProfiles(@PageableDefault Pageable pageable){
-        return ResponseEntity.ok().body(employeeProfileService.getEmployeeProfiles(pageable));
+    public ResponseEntity<Page<EmployeeProfileResponse>> getEmployeeProfiles(@PageableDefault Pageable page,
+                                                                             @RequestParam(required = false) EmployeeStatus status,
+                                                                             @RequestParam(required = false) String keyword
+    ){
+        return ResponseEntity.ok().body(employeeProfileService.getEmployeeProfilesByStatus(page,status,keyword));
     }
 }
